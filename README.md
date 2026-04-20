@@ -199,6 +199,11 @@ http://localhost:3000
 
 Reponse attendue: 201
 
+Réponse dans postman
+
+![alt text](docs/images/image.png)
+
+
 ### 2) Se connecter (login)
 
 - Method: POST
@@ -224,8 +229,14 @@ Exemple de reponse:
   "token": "eyJ..."
 }
 ```
+Réponse dans postman : 
+![alt text](docs/images/image-1.png)
+
+Réponse en cas de mauvais identifiants : 
+![alt text](docs/images/image-2.png)
 
 Copier la valeur de token pour les routes suivantes.
+
 
 ### 3) Recuperer toutes les equipes
 
@@ -236,6 +247,8 @@ Copier la valeur de token pour les routes suivantes.
 
 Reponse attendue: 200
 
+Réponse dans postman : 
+![alt text](docs/images/image-3.png)
 ### 4) Recuperer une equipe par id
 
 - Method: GET
@@ -244,6 +257,12 @@ Reponse attendue: 200
   - Authorization: Bearer TON_TOKEN
 
 Reponse attendue: 200 si l'id existe, sinon 404.
+
+Réponse dans postman : 
+![alt text](docs/images/image-4.png)
+
+Réponse avec un mauvais id : 
+![alt text](docs/images/image-5.png)
 
 ### 5) Creer une equipe
 
@@ -263,6 +282,12 @@ Reponse attendue: 200 si l'id existe, sinon 404.
 
 Reponse attendue: 201
 
+Réponse dans postman : 
+![alt text](docs/images/image-6.png)
+
+Réponse avec mauvaise requete : 
+![alt text](docs/images/image-7.png)
+
 ### 6) Modifier une equipe
 
 - Method: PUT
@@ -280,6 +305,12 @@ Reponse attendue: 201
 ```
 
 Reponse attendue: 200 si l'id existe, sinon 404.
+Réponse dans postman : 
+![alt text](docs/images/image-8.png)
+
+Réponse si mauvais id : 
+![alt text](docs/images/image-9.png)
+
 
 ### 7) Supprimer une equipe
 
@@ -290,12 +321,21 @@ Reponse attendue: 200 si l'id existe, sinon 404.
 
 Reponse attendue: 204 si l'id existe, sinon 404.
 
+Réponse postman : 
+![alt text](docs/images/image-10.png)
+
+Réponse si mauvais id : 
+![alt text](docs/images/image-11.png)
+
 ### 8) Recuperer tous les joueurs
 
 - Method: GET
 - URL: http://localhost:3000/players
 - Headers:
   - Authorization: Bearer TON_TOKEN
+  
+Réponse Postman : 
+![alt text](docs/images/image-12.png)
 
 ### 9) Recuperer un joueur par id
 
@@ -303,6 +343,9 @@ Reponse attendue: 204 si l'id existe, sinon 404.
 - URL: http://localhost:3000/players/1
 - Headers:
   - Authorization: Bearer TON_TOKEN
+
+Réponse postman : 
+![alt text](docs/images/image-13.png)
 
 ### 10) Creer un joueur
 
@@ -315,14 +358,20 @@ Reponse attendue: 204 si l'id existe, sinon 404.
 
 ```json
 {
-  "name": "Kylian Mbappe",
+  "name": "Dembelle",
   "post": "Attaquant",
-  "idTeam": 1,
-  "number": 7
+  "idTeam": 11,
+  "number": 11
 }
 ```
 
 Reponse attendue: 201
+
+Réponse postman :
+![alt text](docs/images/image-14.png)
+
+Réponse si l'équipe n'existe pas : 
+![alt text](docs/images/image-18.png)
 
 ### 11) Modifier un joueur
 
@@ -335,14 +384,22 @@ Reponse attendue: 201
 
 ```json
 {
-  "name": "Kylian Mbappe",
+  "name": "Dembelle",
   "post": "Attaquant",
-  "idTeam": 1,
-  "number": 10
+  "idTeam": 11,
+  "number": 11
 }
 ```
-
 Reponse attendue: 200 si l'id existe, sinon 404.
+
+Réponse postman : 
+![alt text](docs/images/image-15.png)
+
+Réponse si le joueur n'existe pas : 
+![alt text](docs/images/image-16.png)
+
+Réponse si l'équipe n'existe pas : 
+![alt text](docs/images/image-17.png)
 
 ### 12) Supprimer un joueur
 
@@ -353,12 +410,23 @@ Reponse attendue: 200 si l'id existe, sinon 404.
 
 Reponse attendue: 204 si l'id existe, sinon 404.
 
+Réponse postman : 
+
+Réponse si le joueur n'existe pas : 
+
+
 ### 13) Joueurs d'une equipe
 
 - Method: GET
 - URL: http://localhost:3000/players/team/1
 - Headers:
   - Authorization: Bearer TON_TOKEN
+
+Réponse postman : 
+![alt text](docs/images/image-19.png)
+
+Réponse si l'équipe n'existe pas : 
+![alt text](docs/images/image-20.png)
 
 ### 14) Equipe d'un joueur
 
@@ -367,6 +435,12 @@ Reponse attendue: 204 si l'id existe, sinon 404.
 - Headers:
   - Authorization: Bearer TON_TOKEN
 
+Réponse postman : 
+![alt text](docs/images/image-21.png)
+
+Réponse si le joueur n'existe pas : 
+![alt text](docs/images/image-22.png)
+
 ### 15) Recherche par name
 
 - Method: GET
@@ -374,3 +448,5 @@ Reponse attendue: 204 si l'id existe, sinon 404.
 - Headers:
   - Authorization: Bearer TON_TOKEN
 
+Réponse postman : 
+![alt text](docs/images/image-23.png)

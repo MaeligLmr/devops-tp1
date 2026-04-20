@@ -63,7 +63,11 @@ exports.updateTeam = async (req, res, next) => {
     try {
         const teamId = Number.parseInt(req.params.id, 10);
         const { name, country } = normalizeTeamPayload(req.body);
-
+        // Vérification de l'existence de l'équipe
+        const existingTeam = await teamModel.findById(teamId);
+        if (!existingTeam) {
+            return res.status(404).json({ message: 'Equipe introuvable' });
+        }
         if (!name || !country) {
             return res.status(400).json({ message: 'Les champs name et country sont obligatoires' });
         }
