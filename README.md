@@ -38,34 +38,58 @@ API CRUD d'equipes et joueurs de football avec authentification JWT.
 `-- README.md
 ```
 
-## Role de chaque couche
+## Explication du code
 
-- Models: acces MongoDB (lecture, insertion, mise a jour, suppression).
-- Controllers: logique metier, validation des donnees, codes HTTP retournes.
-- Routes: mapping URL -> controller.
-- Middleware: verification du token JWT (`Authorization: Bearer ...`).
-- Config: connexion MongoDB et creation des index.
+### config/database.js
 
-## Installation
+Gere la connexion a MongoDB via le driver officiel. La fonction `connectDatabase()` est appelee au demarrage du serveur (`index.js`). Elle etablit la connexion et cree les index uniques sur `teams.id` et `users.email`. La fonction `getDb()` est utilisee dans les models pour recuperer l'instance de base de donnees.
 
-1. Installer MongoDB Server.
-2. Lancer MongoDB localement sur le port 27017.
-3. Installer les dependances:
+### middlewares/authMiddleware.js
 
-```bash
-npm install
-```
+Protege les routes sensibles. Il lit le header `Authorization: Bearer <token>`, verifie la signature du JWT avec `jsonwebtoken`, et attache `req.auth.userId` si le token est valide. Si le token est absent ou invalide, il renvoie un `401`. Ce middleware est applique a toutes les routes `/teams` et `/players` dans `app.js`.
 
-4. Lancer l'API:
+### models/
 
-```bash
-npm start
-```
+Chaque model expose des fonctions d'acces a MongoDB pour une collection donnee. Aucune logique metier ici, uniquement des requetes :
 
-## Configuration Mongo
+- `findAll()` : retourne tous les documents tries par `id`.
+- `findById(id)` : cherche un document par son `id` numerique.
+- `create(doc)` : insere un document et le retourne.
+- `getNextId()` : calcule le prochain `id` en prenant le max existant + 1.
+- `updateById(id, values)` : met a jour via `updateOne` et retourne le document modifie avec `findOne`. Retourne `null` si aucun document ne correspond.
+- `deleteById(id)` : supprime un document et retourne le resultat (contient `deletedCount`).
 
-- URI par defaut: `mongodb://127.0.0.1:27017`
-- Nom de base par defaut: `tp1`
+Pour les joueurs, deux fonctions supplementaires :
+
+- `findByTeamId(idTeam)` : filtre les joueurs par equipe.
+- `findByNom(name)` : recherche insensible a la casse via une regex MongoDB (`$regex`, `$options: 'i'`).
+
+### controllers/
+
+Contiennent la logique metier. Chaque fonction :
+
+1. Parse et normalise les donnees de la requete (conversion en nombre avec `parseInt`, trim des chaines).
+2. Valide les champs obligatoires et renvoie un `400` si incomplet.
+3. Appelle le model et renvoie un `404` si la ressource n'existe pas.
+4. Renvoie la reponse JSON avec le bon code HTTP (`200`, `201`, `204`).
+5. Passe les erreurs imprevisibles a `next(error)` pour le gestionnaire global.
+
+Pour les joueurs, le controller verifie aussi que l'equipe (`idTeam`) existe avant de creer ou modifier un joueur.
+
+Les routes speciales joueurs :
+
+- `GET /players/team/:idTeam` : verifie que l'equipe existe, puis retourne tous les joueurs de cette equipe.
+- `GET /players/:id/team` : recupere le joueur, puis recupere son equipe via `player.idTeam`.
+- `GET /players/search?name=...` : passe le parametre `name` a `findByNom` qui fait une recherche regex.
+
+### routes/
+
+Fichiers de mapping URL vers les fonctions du controller. Les routes `/search` et `/team/:idTeam` sont declarees avant `/:id` pour eviter qu'Express les interprete comme un id.
+
+### app.js
+
+Point d'entree de l'application Express. Enregistre le middleware JSON (`express.json()`), monte les routeurs sur leurs prefixes (`/auth`, `/teams`, `/players`) avec le middleware d'authentification pour les routes protegees, et definit le gestionnaire d'erreurs global.
+
 
 Variables d'environnement possibles:
 
