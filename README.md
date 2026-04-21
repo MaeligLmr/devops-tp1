@@ -1,6 +1,10 @@
 # TP1 - DEVOPS - M1 DEV
 
-API CRUD d'equipes et joueurs de football avec authentification JWT.
+## Introduction
+
+L'objectif de ce TP est de concevoir et developper une API REST complete en suivant les bonnes pratiques DevOps et de developpement backend. Le sujet porte sur la gestion d'equipes et de joueurs de football, avec un systeme d'authentification securise par JSON Web Token (JWT).
+
+Le but est de mettre en pratique la connexion a une base de donnees NoSQL (MongoDB), la securisation des routes via un middleware d'authentification, et la validation des donnees entrantes. Le tout est documente et teste via Postman pour garantir le bon fonctionnement de chaque endpoint.
 
 ## Technologies utilisees
 
@@ -450,3 +454,11 @@ Réponse si le joueur n'existe pas :
 
 Réponse postman : 
 ![alt text](docs/images/image-23.png)
+
+## Conclusion
+
+Ce TP m'a permis de consolider plusieurs competences cles du developpement backend et des pratiques DevOps.
+
+La mise en place de l'authentification JWT m'a permis de comprendre concretement le cycle de vie d'un token : creation lors du login, transmission via le header `Authorization`, et verification par un middleware avant chaque requete protegee. J'ai egalement pris en main le driver officiel MongoDB (sans ORM), ce qui m'a donne une vision plus precise de ce qui se passe au niveau des requetes en base de donnees.
+
+Enfin, la phase de tests avec Postman m'a appris l'importance de couvrir non seulement les cas nominaux (ressource trouvee, creation reussie), mais aussi les cas d'erreur (ressource inexistante, champs manquants, mauvais token), afin de garantir la robustesse de l'API.
